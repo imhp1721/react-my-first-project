@@ -20,7 +20,7 @@ function App() {
 
   return (
     <main className="app">
-      <h1>My first React project</h1>
+      <h1>Teachers</h1>
       <section className="grid">
         {users.map((user) => (
           <User key={user.id} name={user.name} mail={user.mail} image={user.image} />

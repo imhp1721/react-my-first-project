@@ -6,7 +6,23 @@ export default function HomePage() {
   console.log(users);
 
   useEffect(() => {
-    fetchUsers();
+    getUsers();
+
+    async function getUsers() {
+      const data = localStorage.getItem("users");
+
+      let usersData = [];
+
+      if (data) {
+        usersData = JSON.parse(data);
+        usersData.sort((user1, user2) => user1.name.localeCompare(user2.name));
+      } else {
+        usersData = await fetchUsers();
+      }
+
+      console.log(usersData);
+      setUsers(usersData);
+    }
   }, []);
 
   async function fetchUsers() {
@@ -14,8 +30,10 @@ export default function HomePage() {
       "https://raw.githubusercontent.com/cederdorff/race/master/data/users.json"
     );
     const data = await response.json();
-    setUsers(data);
+    localStorage.setItem("users", JSON.stringify(data));
+    return data;
   }
+
   return (
     <div className="page">
       <section className="grid">

@@ -7,6 +7,11 @@ export default function User({ user }) {
     navigate(`/users/${user.id}`);
   }
 
+  function getInitials() {
+    const initials = user.mail.split("@")[0];
+    return initials;
+  }
+
   return (
     <article className="user-card" onClick={handleClick}>
       <img
@@ -15,7 +20,9 @@ export default function User({ user }) {
         }
         alt={user.name}
       />
-      <h2>{user.name}</h2>
+      <h2>
+        {user.name} ({getInitials()})
+      </h2>
       <p className="title">{user.title}</p>
       <p>
         <a href={`mailto:${user.mail}`}>{user.mail}</a>

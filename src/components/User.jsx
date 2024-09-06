@@ -8,7 +8,7 @@ export default function User({ user }) {
   }
 
   function getInitials() {
-    const initials = user.mail.split("@")[0];
+    const initials = user.mail?.split("@")[0];
     return initials;
   }
 
@@ -21,12 +21,10 @@ export default function User({ user }) {
         alt={user.name}
       />
       <h2>
-        {user.name} ({getInitials()})
+        {user.name} ({user.mail ? getInitials() : "No initials"})
       </h2>
-      <p className="title">{user.title}</p>
-      <p>
-        <a href={`mailto:${user.mail}`}>{user.mail}</a>
-      </p>
+      <p className="title">{user.title ? user.title : "Unknown title"}</p>
+      <p> {user.mail ? <a href={`mailto:${user.mail}`}>{user.mail}</a> : "No email"} </p>
     </article>
   );
 }

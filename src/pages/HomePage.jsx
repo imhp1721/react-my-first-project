@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import User from "../components/User";
 
 export default function HomePage() {
-  const [users, setUsers] = useState([]);
-  console.log(users);
+  const [users, setUsers] = useState([]); // state to handle the data (users)
+  const [searchTerm, setSearchTerm] = useState(""); //state to handle the search term
 
   useEffect(() => {
     getUsers();
@@ -34,11 +34,25 @@ export default function HomePage() {
     return data;
   }
 
+  const filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="page">
+      <form className="grid-filter" role="search">
+        <label htmlFor="">
+          Search by name{""}
+          <input
+            type="search"
+            placeholder="Search"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </label>
+      </form>
       <section className="grid">
-        {users.map((user) => (
-          <User key={user.id} user={user} />
+        {filteredUsers.map((user) => (
+          <User user={user} key={user.id} />
         ))}
       </section>
     </div>

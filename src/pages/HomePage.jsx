@@ -4,6 +4,7 @@ import User from "../components/User";
 export default function HomePage() {
   const [users, setUsers] = useState([]); // state to handle the data (users)
   const [searchTerm, setSearchTerm] = useState(""); //state to handle the search term
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     getUsers();
@@ -34,20 +35,38 @@ export default function HomePage() {
     return data;
   }
 
-  const filteredUsers = users.filter((user) =>
+  let filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const titles = [...new Set(users.map((user) => user.title))];
+  console.log(titles);
+
+  if (filter != "") {
+    filteredUsers = filteredUsers.filter((user) => user.title === filter); //filter the users array by the selected title
+  }
 
   return (
     <div className="page">
       <form className="grid-filter" role="search">
-        <label htmlFor="">
-          Search by name{""}
+        <label>
+          Search by name
           <input
             type="search"
             placeholder="Search"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+        </label>
+        <label>
+          Search by title
+          <select onChange={(e) => setFilter(e.target.value)}>
+            <option value="">Select title</option>
+            {titles.map((title) => (
+              <option key={title} value={title}>
+                {title}
+              </option>
+            ))}
+          </select>
         </label>
       </form>
       <section className="grid">

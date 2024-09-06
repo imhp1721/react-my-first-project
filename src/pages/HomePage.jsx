@@ -5,6 +5,7 @@ export default function HomePage() {
   const [users, setUsers] = useState([]); // state to handle the data (users)
   const [searchTerm, setSearchTerm] = useState(""); //state to handle the search term
   const [filter, setFilter] = useState("");
+  const [sort, setSort] = useState("name");
 
   useEffect(() => {
     getUsers();
@@ -16,7 +17,6 @@ export default function HomePage() {
 
       if (data) {
         usersData = JSON.parse(data);
-        usersData.sort((user1, user2) => user1.name.localeCompare(user2.name));
       } else {
         usersData = await fetchUsers();
       }
@@ -46,6 +46,8 @@ export default function HomePage() {
     filteredUsers = filteredUsers.filter((user) => user.title === filter); //filter the users array by the selected title
   }
 
+  filteredUsers.sort((user1, user2) => user1[sort].localeCompare(user2[sort]));
+
   return (
     <div className="page">
       <form className="grid-filter" role="search">
@@ -66,6 +68,14 @@ export default function HomePage() {
                 {title}
               </option>
             ))}
+          </select>
+        </label>
+        <label>
+          Sort by
+          <select name="sort" onChange={(e) => setSort(e.target.value)}>
+            <option value="name">Name</option>
+            <option value="title">Title</option>
+            <option value="mail">Mail</option>
           </select>
         </label>
       </form>

@@ -1,6 +1,14 @@
+import { useNavigate } from "react-router-dom";
+
 export default function User({ user }) {
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate(`/users/${user.id}`);
+  }
+
   return (
-    <div className="user-card">
+    <article className="user-card" onClick={handleClick}>
       <img
         src={
           user.image || "https://placehold.co/600x400?text=Error+loading+image"
@@ -12,6 +20,6 @@ export default function User({ user }) {
       <p>
         <a href={`mailto:${user.mail}`}>{user.mail}</a>
       </p>
-    </div>
+    </article>
   );
 }
